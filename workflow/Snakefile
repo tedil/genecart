@@ -1,0 +1,10 @@
+configfile: "config/config.yaml"
+
+
+include: "rules/common.smk"
+include: "rules/genecart.smk"
+
+
+rule all:
+    input:
+        "results/genecart/association_rules.tsv",

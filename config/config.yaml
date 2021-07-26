@@ -1,0 +1,39 @@
+# mine frequent variants,
+# uses mlxtend, see https://rasbt.github.io/mlxtend/api_subpackages/mlxtend.frequent_patterns/ for more information
+genecart:
+  # vembrane filter expression to filter VCF/BCF files
+  # filters by VEP annotated "IMPACT" by default,
+  # but could also be used to filter for VariantType (e.g. SNVs only) etc
+  filter_expression: 'ANN["IMPACT"] in ("MODERATE", "HIGH")'
+
+  # vembrane table expression to extract *exactly one* entry per VCF record
+  # this is the type of item which we want to mine frequent item sets of
+  # defaults to VEP annotated "SYMBOL"
+  symbol_expression: 'ANN["SYMBOL"]'
+  frequent_sets:
+
+    # selects the algorithm used for mining frequent item sets,
+    # can be either of 'fpgrowth', 'fpmax', 'apriori'
+    # defaults to 'fpgrowth'
+    algorithm: fpgrowth
+
+    # threshold for minimum support, between 0 and 1
+    # support := number of transactions which contain a certain item set / total number of transactions
+    min_support: 0.2
+
+    # maximum length of itemsets
+    # defaults to None (no upper limit)
+    # max_len: 100
+  association_rules:
+
+    # metric by which to threshold association rules
+    # defaults to 'confidence'
+    # can be either of 'confidence', 'support', 'lift'
+    #
+    # A: antecedent item set
+    # C: consequent item set
+    # support(A → C) := support(A + C)
+    # confidence(A → C) := support(A → C) / support(A)
+    # lift(A → C) := confidence(A → C) / support(C)
+    metric: confidence
+    threshold: 0.8
