@@ -23,6 +23,12 @@ def read_transactions(path: str) -> List[List[str]]:
     return transactions
 
 
+def samples_for_itemset(itemset: List[str], df: pd.DataFrame) -> List[str]:
+    subset = df.loc[:, itemset]
+    print(subset)
+    return list(subset[subset.sum(axis=1) == len(itemset)].index)
+
+
 def genecart(
     samples: List[str], transactions: List[List[str]], **params
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -63,18 +69,34 @@ def genecart(
     )
     print("finished generating association rules")
 
-    return frequent_sets, rules
+    return frequent_sets, rules, df
 
 
 def main(snakemake):
     samples = read_samples(snakemake.input.samples)
     transactions = read_transactions(snakemake.input.transactions)
-    frequent_sets, rules = genecart(samples, transactions, **snakemake.params)
-    frequent_sets.to_csv(snakemake.output.frequent_sets, sep="\t")
-    rules["antecedents"] = rules["antecedents"].apply(lambda s: ','.join(map(str, s)))
-    rules["consequents"] = rules["consequents"].apply(lambda s: ','.join(map(str, s)))
-    rules.to_csv(snakemake.output.association_rules, sep="\t")
 
+    frequent_sets, rules, df = genecart(samples, transactions, **snakemake.params)
+
+    if snakemake.params.write_samples_frequent_sets:
+        frequent_sets["samples"] = frequent_sets["itemsets"].apply(
+            lambda itemset: ",".join(samples_for_itemset(itemset, df))
+        )
+    frequent_sets["itemsets"] = frequent_sets["itemsets"].apply(
+        lambda s: ",".join(map(str, s))
+    )
+    frequent_sets.to_csv(snakemake.output.frequent_sets, sep="\t", index=False)
+
+    if snakemake.params.write_samples_association_rules:
+        rules["samples"] = rules.apply(
+            lambda row: ",".join(
+                samples_for_itemset(row["antecedents"] | row["consequents"], df)
+            ),
+            axis=1,
+        )
+    rules["antecedents"] = rules["antecedents"].apply(lambda s: ",".join(map(str, s)))
+    rules["consequents"] = rules["consequents"].apply(lambda s: ",".join(map(str, s)))
+    rules.to_csv(snakemake.output.association_rules, sep="\t", index=False)
 
 
 if __name__ == "__main__":

@@ -24,6 +24,10 @@ genecart:
     # maximum length of itemsets
     # defaults to None (no upper limit)
     # max_len: 100
+
+    # whether to include a column named "samples" which lists the samples that have all the items in the itemset
+    # defaults to True
+    write_samples: True
   association_rules:
 
     # metric by which to threshold association rules
@@ -37,3 +41,7 @@ genecart:
     # lift(A → C) := confidence(A → C) / support(C)
     metric: confidence
     threshold: 0.8
+
+    # whether to include a column named "samples" which lists the samples that have all the items in the itemset
+    # defaults to True
+    write_samples: True

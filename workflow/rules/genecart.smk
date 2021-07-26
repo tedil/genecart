@@ -13,6 +13,8 @@ rule genecart:
         algorithm=get_frequent_set_algorithm,
         association_rule_metric=get_association_rule_metric,
         association_rule_threshold=get_association_rule_threshold,
+        write_samples_frequent_sets=get_frequent_sets_write_samples,
+        write_samples_association_rules=get_association_rules_write_samples,
     conda:
         "../envs/genecart.yaml"
     script:

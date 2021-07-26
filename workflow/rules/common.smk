@@ -40,3 +40,13 @@ def get_filter_expression(wildcards):
 
 def get_symbol_expression(wildcards):
     return config["genecart"].get("symbol_expression", "symbol")
+
+
+def get_frequent_sets_write_samples(wildcards):
+    return config["genecart"].get("frequent_sets", dict()).get("write_samples", True)
+
+
+def get_association_rules_write_samples(wildcards):
+    return (
+        config["genecart"].get("association_rules", dict()).get("write_samples", True)
+    )
