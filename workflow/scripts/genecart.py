@@ -8,6 +8,7 @@ from mlxtend.frequent_patterns import (
     association_rules,
 )
 from mlxtend.preprocessing import TransactionEncoder
+from contextlib import redirect_stdout, redirect_stderr
 
 
 def read_samples(path: str) -> List[str]:
@@ -75,8 +76,9 @@ def main(snakemake):
     rules.to_csv(snakemake.output.association_rules, sep="\t")
 
 
+
 if __name__ == "__main__":
     import sys
     with open(snakemake.log[0], "wt") as f:
-        sys.stderr = sys.stdout = f
-        main(snakemake)
+        with redirect_stdout(f), redirect_stderr(f):
+            main(snakemake)
