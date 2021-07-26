@@ -78,7 +78,6 @@ def main(snakemake):
 
 
 if __name__ == "__main__":
-    import sys
     with open(snakemake.log[0], "wt") as f:
         with redirect_stdout(f), redirect_stderr(f):
             main(snakemake)
