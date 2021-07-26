@@ -1,6 +1,6 @@
 from contextlib import redirect_stderr, redirect_stdout
 
-with open(snakemake.log[0], 'wt') as f:
+with open(snakemake.log[0], "wt") as f:
     with redirect_stdout(f), redirect_stderr(f):
         samples = snakemake.params.samples
         with open(snakemake.output.transactions, "wt") as out:
