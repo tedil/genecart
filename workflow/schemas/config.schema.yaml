@@ -1,0 +1,42 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+
+description: snakemake configuration file
+
+type: object
+
+properties:
+  genecart:
+    type: object
+    properties:
+      filter_expression:
+        type: string
+      symbol_expression:
+        type: string
+      frequent_sets:
+        type: object
+        properties:
+          algorithm:
+            type: string
+            enum: ["fpgrowth", "fpmax", "apriori"]
+          min_support:
+            type: number
+            minimum: 0.0
+            maximum: 1.0
+          write_samples:
+            type: boolean
+      association_rules:
+        type: object
+        properties:
+          metric:
+            type: string
+            enum: ["confidence", "support", "lift"]
+          threshold:
+            type: number
+          write_samples:
+            type: boolean
+    required:
+      - filter_expression
+      - symbol_expression
+
+required:
+  - genecart

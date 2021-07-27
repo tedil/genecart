@@ -1,4 +1,10 @@
+from snakemake.utils import validate
+
+
 configfile: "config/config.yaml"
+
+
+validate(config, schema="schemas/config.schema.yaml")
 
 
 include: "rules/common.smk"
