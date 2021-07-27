@@ -1,5 +1,10 @@
-(SAMPLES,) = glob_wildcards("results/variants/{sample}.bcf")
-assert len(SAMPLES) > 1
+def get_samples():
+    (samples,) = glob_wildcards("results/variants/{sample}.bcf")
+    assert len(samples) > 1
+    return samples
+
+
+SAMPLES = get_samples()
 
 
 def get_frequent_set_algorithm(wildcards):
