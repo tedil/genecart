@@ -25,7 +25,6 @@ def read_transactions(path: str) -> List[List[str]]:
 
 def samples_for_itemset(itemset: List[str], df: pd.DataFrame) -> List[str]:
     subset = df.loc[:, itemset]
-    print(subset)
     return list(subset[subset.sum(axis=1) == len(itemset)].index)
 
 
