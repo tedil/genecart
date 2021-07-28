@@ -1,10 +1,17 @@
-def get_samples():
-    (samples,) = glob_wildcards("results/variants/{sample}.bcf")
-    assert len(samples) > 1
-    return samples
+import pandas as pd
+
+SAMPLES = (
+    pd.read_csv(
+        config["samples"], sep="\t", comment="#", dtype={"sample": str, "bcf": str}
+    )
+    .set_index("sample", drop=False)
+    .sort_index()
+)
+validate(SAMPLES, schema="../schemas/samples.schema.yaml")
 
 
-SAMPLES = get_samples()
+def get_sample_bcf(wildcards):
+    return samples.loc[wildcards.sample]["bcf"]
 
 
 def get_frequent_set_algorithm(wildcards):

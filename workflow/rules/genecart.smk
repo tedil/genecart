@@ -23,12 +23,12 @@ rule genecart:
 
 rule aggregate_gene_lists:
     input:
-        lists=expand("results/genes/{sample}.list", sample=SAMPLES),
+        lists=expand("results/genes/{sample}.list", sample=SAMPLES.index),
     output:
         transactions="results/transactions/genes_per_sample.list",
         samples="results/transactions/samples.list",
     params:
-        samples=SAMPLES,
+        samples=SAMPLES.index,
     conda:
         "../envs/aggregate_gene_lists.yaml"
     log:
@@ -39,7 +39,7 @@ rule aggregate_gene_lists:
 
 rule extract_genes:
     input:
-        bcf="results/variants/{sample}.bcf",
+        bcf=get_sample_bcf,
     output:
         list="results/genes/{sample}.list",
     params:

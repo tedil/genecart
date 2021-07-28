@@ -5,6 +5,8 @@ description: snakemake configuration file
 type: object
 
 properties:
+  samples:
+    type: string
   genecart:
     type: object
     properties:

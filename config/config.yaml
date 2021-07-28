@@ -1,5 +1,7 @@
 # mine frequent variants,
 # uses mlxtend, see https://rasbt.github.io/mlxtend/api_subpackages/mlxtend.frequent_patterns/ for more information
+samples: config/samples.tsv
+
 genecart:
   # vembrane filter expression to filter VCF/BCF files
   # filters by VEP annotated "IMPACT" by default,
