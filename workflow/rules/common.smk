@@ -11,7 +11,7 @@ validate(SAMPLES, schema="../schemas/samples.schema.yaml")
 
 
 def get_sample_bcf(wildcards):
-    return samples.loc[wildcards.sample]["bcf"]
+    return SAMPLES.loc[wildcards.sample]["bcf"]
 
 
 def get_frequent_set_algorithm(wildcards):
